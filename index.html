@@ -20,47 +20,56 @@
                 <button id="zakaz2">Заказать</button>
             </li>
             <li>
-                <img src="image/burger.png">
-                <p>Бургер "ГрандГолд"</p>
-                <p>369 ₽</p>
-                <button id="zakaz3">Заказать</button>
-            </li>
-            <li>
                 <img src="image/tako.png">
                 <p>Тако</p>
                 <p>210 ₽</p>
-                <button id="zakaz4">Заказать</button>
+                <button id="zakaz3">Заказать</button>
             </li>
         </ul>
         <form id="form" class="osnova">
-            <input type="text" placeholder="Имя">
-            <input type="text" placeholder="Адрес">
-            <input type="text" placeholder="Телефон">
-            <button>Оформить</button>
+            <input type="text" placeholder="Имя" id="user_name">
+	    <input type="text" placeholder="Адрес" id="user_address">
+	    <input type="text" placeholder="Телефон" id="user_phone">
+            <button id="order">Оформить</button>
         </form>
     </div>
+    <script src="https://telegram.org/js/telegram-web-app.js"></script>
     <script>
         document.getElementById("main").classList.add("active");
+	let tg = window.Telegram.WebApp;
+	let zakaz;
         let zakaz1 = document.getElementById("zakaz1");
         let zakaz2 = document.getElementById("zakaz2");
 	let zakaz3 = document.getElementById("zakaz3");
-        let zakaz4 = document.getElementById("zakaz4");
+	let order = document.getElementById("order");
         zakaz1.addEventListener("click", () => {
             document.getElementById("main").classList.remove("active");
             document.getElementById("form").classList.add("active");
+	    zakaz = "Хотдог Классика";
         })
         zakaz2.addEventListener("click", () => {
             document.getElementById("main").classList.remove("active");
             document.getElementById("form").classList.add("active");
+	    zakaz = "Запеченная рыба";
         })
 	zakaz3.addEventListener("click", () => {
             document.getElementById("main").classList.remove("active");
             document.getElementById("form").classList.add("active");
+	    zakaz = "Тако";
         })
-        zakaz4.addEventListener("click", () => {
-            document.getElementById("main").classList.remove("active");
-            document.getElementById("form").classList.add("active");
-        })
+	order.addEventListener("click", () => {
+	    let name = document.getElementById("user_name").value;
+	    let address = document.getElementById("user_address").value;
+	    let phone = document.getElementById("user_phone").value;
+	    let data = {
+		    userName: name, 
+		    userAddress: address,
+		    userPhone: phone,
+		    userZakaz: zakaz
+	    }
+	    tg.sendData(JSON.stringify(data));
+            tg.close();
+	})
     </script>
 </body>
 </html>
@@ -68,7 +77,7 @@
 <style>
     body{
         background-image: url("image/fon.jpg");
-	    background-size: cover;
+	background-size: cover;
     }
     div{
         background-color: khaki;
